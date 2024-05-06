@@ -1,3 +1,18 @@
 body {
     background-color: yellow
 }
+
+.dropdown {
+    display: none; /* Versteckt das Dropdown standardmäßig */
+    position: absolute; /* Positioniert das Dropdown relativ zum Suchfeld */
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto; /* Ermöglicht das Scrollen, wenn viele Ergebnisse vorhanden sind */
+    border: 1px solid #ccc;
+    width: calc(100% - 2px); /* passt die Breite an das Eingabefeld an */
+    box-sizing: border-box;
+}
+
+.overlay.show {
+    display: block; /* Zeigt das Dropdown an, wenn Ergebnisse vorhanden sind */
+}
