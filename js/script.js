@@ -100,7 +100,9 @@ function updateSongList(searchValue) {
                 // Overlay erstellen
                 const overlay = document.createElement('div');
                 overlay.classList.add('overlay');
-
+                
+             // Overlay dem Dokument hinzufügen
+            document.body.appendChild(overlay);
 
         foundSongs.forEach(song => {
             const li = document.createElement('li');
@@ -109,15 +111,9 @@ function updateSongList(searchValue) {
             document.createElement('a')
             songList.appendChild(li);
 
-             // Overlay dem Dokument hinzufügen
-        document.body.appendChild(overlay);
-        
         });
     }
 }
-
-
-
 
 
 // Event Listener für das Suchfeld
