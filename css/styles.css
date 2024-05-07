@@ -44,15 +44,10 @@ h2 {
 }
 
 #random_song {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
-    width: 300px; 
+  box-sizing: content-box;
     color: #9DF200;
     background-color: #838383;
+    width: 40;
 }
 
 #recommendation {
