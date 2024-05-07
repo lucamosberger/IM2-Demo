@@ -16,3 +16,30 @@ body {
 .overlay.show {
     display: block; /* Zeigt das Dropdown an, wenn Ergebnisse vorhanden sind */
 }
+.autocomplete-container {
+    position: relative;
+    width: 300px;
+}
+
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: white;
+}
+
+.autocomplete-results div {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+.autocomplete-results div:hover {
+    background-color: #f0f0f0;

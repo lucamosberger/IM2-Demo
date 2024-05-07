@@ -18,7 +18,7 @@
 
 
 
-console.log('Hello, World!');
+//console.log('Hello, World!');
 
 let songs = []
 
@@ -30,24 +30,27 @@ function generateRandomNumber() {
 }
 async function callAPI () {
     const response = await fetch(url);
-    console.log("Raw response: ",response);
+    //console.log("Raw response: ",response);
     const data = await response.json();
-    console.log("Data: ",data);
+    //console.log("Data: ",data);
     songs = data.songList;
-    console.log("Songs: ",songs);
+    //console.log("Songs: ",songs);
     // let firstSong = songs[5];
     // console.log("First Song: ",firstSong);
     //filter song where isPlayingNow = true
     let currentSong = songs.filter(song => song.isPlayingNow == true);
-    console.log ("currentSong: ",currentSong);
+    //console.log ("currentSong: ",currentSong);
+
+    generateAutocomplete()
 }
+
 
 callAPI();
 
 //chooose random song
 function chooseRandomSong() {
     let randomNumber = generateRandomNumber();
-    console.log("Random Number: ",randomNumber);
+    //console.log("Random Number: ",randomNumber);
 }
 chooseRandomSong ()
 
@@ -56,7 +59,7 @@ chooseRandomSong ()
 async function showRandomSong() {
     await callAPI(); //wait for the API to be loaded
     let randomNumber = generateRandomNumber();
-    console.log("Random Number: ",randomNumber);
+   // console.log("Random Number: ",randomNumber);
     let randomSong = songs[randomNumber];
 
     let randomSongElement = document.getElementById('random_song');
@@ -81,9 +84,9 @@ showRandomSong();
 //search song
 function searchSong() {
     let searchValue = document.getElementById('search').value;
-    console.log("Search Value: ",searchValue);
+    //console.log("Search Value: ",searchValue);
     let foundSongs = songs.filter(song => song.title.toLowerCase().includes(searchValue.toLowerCase()));
-    console.log("Found Songs: ",foundSongs);
+    //console.log("Found Songs: ",foundSongs);
 }
 
 
@@ -97,13 +100,7 @@ function updateSongList(searchValue) {
             song.title.toLowerCase().includes(searchValue.toLowerCase())
         );
 
-                // Overlay erstellen
-                const overlay = document.createElement('div');
-                overlay.classList.add('overlay');
-                
-             // Overlay dem Dokument hinzufügen
-            document.body.appendChild(overlay);
-
+        
         foundSongs.forEach(song => {
             const li = document.createElement('li');
             //li.textContent = `${song.title} - ${song.artist.name}`;
@@ -116,8 +113,72 @@ function updateSongList(searchValue) {
 }
 
 
+
 // Event Listener für das Suchfeld
 document.getElementById('searchInput').addEventListener('input', (event) => {
     updateSongList(event.target.value);
 });
 
+
+// function generateAutocomplete() {
+//     const searchInput = document.getElementById('autocomplete-input');
+//     const resultsContainer = document.getElementById('autocomplete-results');
+
+//     //const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Grape', 'Kiwi', 'Mango', 'Nectarine', 'Orange', 'Pineapple', 'Quince'];
+//     //console.log("Songs: ",songs);
+//     const items = songs.map(song => song.title+", "+song.artist.name);
+//     console.log("Songs: ",songs);
+
+//     searchInput.addEventListener('input', function() {
+//         const input = searchInput.value.toLowerCase();
+//         resultsContainer.innerHTML = '';
+
+//         if (input.length > 0) {
+//             const filteredItems = items.filter(item => item.toLowerCase().startsWith(input));
+
+//             filteredItems.forEach(function(item) {
+//                 const div = document.createElement('div');
+//                 div.textContent = item;
+//                 div.addEventListener('click', function() {
+//                     searchInput.value = item;
+//                     resultsContainer.innerHTML = '';
+//                 });
+//                 resultsContainer.appendChild(div);
+//             });
+//         }
+//     });
+// };
+
+function generateAutocomplete() {
+    const searchInput = document.getElementById('autocomplete-input');
+    const resultsContainer = document.getElementById('autocomplete-results');
+
+    // Array `songs` wird vorausgesetzt, dass es definiert und initialisiert wurde.
+    const items = songs.map(song => ({
+        label: song.title + ", " + song.artist.name, // Komplette Beschriftung für Anzeige
+        title: song.title.toLowerCase(), // Titel in Kleinbuchstaben
+        artist: song.artist.name.toLowerCase() // Künstlername in Kleinbuchstaben
+    }));
+
+    searchInput.addEventListener('input', function() {
+        const input = searchInput.value.toLowerCase();
+        resultsContainer.innerHTML = '';
+
+        if (input.length > 0) {
+            // Filtert sowohl nach Titel als auch Künstlernamen, die mit dem Eingabewert beginnen
+            const filteredItems = items.filter(item => 
+                item.title.startsWith(input) || item.artist.startsWith(input)
+            );
+
+            filteredItems.forEach(function(item) {
+                const div = document.createElement('div');
+                div.textContent = item.label;
+                div.addEventListener('click', function() {
+                    searchInput.value = item.label;
+                    resultsContainer.innerHTML = '';
+                });
+                resultsContainer.appendChild(div);
+            });
+        }
+    });
+}
