@@ -114,10 +114,10 @@ function updateSongList(searchValue) {
 
 
 
-// Event Listener für das Suchfeld
-document.getElementById('searchInput').addEventListener('input', (event) => {
-    updateSongList(event.target.value);
-});
+// // Event Listener für das Suchfeld
+// document.getElementById('searchInput').addEventListener('input', (event) => {
+//     updateSongList(event.target.value);
+// });
 
 
 // function generateAutocomplete() {

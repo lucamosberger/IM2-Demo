@@ -1,21 +1,8 @@
 body {
-    background-color: yellow
+    background-color: #7a7a7a;
 }
 
-.dropdown {
-    display: none; /* Versteckt das Dropdown standardmäßig */
-    position: absolute; /* Positioniert das Dropdown relativ zum Suchfeld */
-    background-color: white;
-    max-height: 200px;
-    overflow-y: auto; /* Ermöglicht das Scrollen, wenn viele Ergebnisse vorhanden sind */
-    border: 1px solid #ccc;
-    width: calc(100% - 2px); /* passt die Breite an das Eingabefeld an */
-    box-sizing: border-box;
-}
 
-.overlay.show {
-    display: block; /* Zeigt das Dropdown an, wenn Ergebnisse vorhanden sind */
-}
 .autocomplete-container {
     position: relative;
     width: 300px;
@@ -42,4 +29,14 @@ body {
 }
 
 .autocomplete-results div:hover {
-    background-color: #f0f0f0;
+    background-color: #838383;
+
+}
+
+h2 {
+    color: #9df200;
+}
+
+.random_song {
+    color: #ffffff;
+}
