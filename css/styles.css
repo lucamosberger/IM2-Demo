@@ -42,14 +42,19 @@ h2 {
     background-color: #838383;
 
 }
+
 #random_song {
-    color: #9df200;
-    background-color: #7a7a7a;
-    margin: 10 10 10 10;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    width: 300px; 
+    color: #9DF200;
+    background-color: #838383;
 }
 
-
-
-.random_song {
-    color: #ffffff;
+#recommendation {
+color: aqua;
 }
