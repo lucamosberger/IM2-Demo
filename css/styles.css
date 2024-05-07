@@ -58,3 +58,17 @@ h2 {
 #recommendation {
 color: aqua;
 }
+
+#recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Optional: für Ausrichtung der Elemente */
+}
+
+.song {
+    flex: 0 1 30%; /* Gibt an, dass jeder Song-Container 30% der Zeilenbreite einnimmt, ermöglicht drei Items pro Zeile */
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
