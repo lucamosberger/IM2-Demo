@@ -42,6 +42,10 @@ async function callAPI () {
     //console.log ("currentSong: ",currentSong);
 
     generateAutocomplete()
+
+        // Auswahl und Anzeige von 9 zufälligen Empfehlungssongs
+        let recommendedSongs = getRandomSongs(songs);
+        displayRecommendations(recommendedSongs);
 }
 
 
@@ -180,5 +184,20 @@ function generateAutocomplete() {
                 resultsContainer.appendChild(div);
             });
         }
+    });
+}
+
+function getRandomSongs(songs, displayCount = 9) {
+    return songs.sort(() => 0.5 - Math.random()).slice(0, displayCount);
+}
+
+function displayRecommendations(songs) {
+    const container = document.getElementById('recommendations');
+    container.innerHTML = '';
+    songs.forEach(song => {
+        const div = document.createElement('div');
+        div.className = 'song';
+        div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name}`;
+        container.appendChild(div);
     });
 }
