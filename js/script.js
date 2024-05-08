@@ -22,7 +22,23 @@
 
 let songs = []
 
-let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-04-08T00%3A00%3A00%2B02%3A00&to=2024-04-08T23%3A59%3A00%2B02%3A00&pageSize=500`
+let heute = new Date();
+console.log("Heute: ",heute);
+
+let heuteSubstring = heute.toISOString().substring(0, 10);
+console.log("Heute Substring: ",heuteSubstring);
+
+let gestern = heute.setDate(heute.getDate() - 1);
+let gesternSubstring = new Date(gestern).toISOString().substring(0, 10);
+console.log("Gestern Substring: ",gesternSubstring);
+
+// 2024-04-08
+
+// let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-04-08T00%3A00%3A00%2B02%3A00&to=2024-04-08T23%3A59%3A00%2B02%3A00&pageSize=500`
+
+
+let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${gesternSubstring}T00%3A00%3A00%2B02%3A00&to=${gesternSubstring}T23%3A59%3A00%2B02%3A00&pageSize=500`
+console.log("URL: ",url);
 
 function generateRandomNumber() {
     return Math.floor(Math.random() * 446);
@@ -187,7 +203,7 @@ function generateAutocomplete() {
     });
 }
 
-function getRandomSongs(songs, displayCount = 9) {
+function getRandomSongs(songs, displayCount = 445) {
     return songs.sort(() => 0.5 - Math.random()).slice(0, displayCount);
 }
 
