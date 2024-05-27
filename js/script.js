@@ -25,16 +25,18 @@ let songs = []
 let heute = new Date();
 console.log("Heute: ",heute);
 
-let heuteSubstring = heute.toISOString().substring(0, 10);
+let heuteSubstring = heute.toISOString().substring(0, 10).trim();
 console.log("Heute Substring: ",heuteSubstring);
 
-let gestern = heute.setDate(heute.getDate() - 1);
-let gesternSubstring = new Date(gestern).toISOString().substring(0, 10);
-console.log("Gestern Substring: ",gesternSubstring);
+// Definition von gestern und gesternSubstring einkommentieren
+let gestern = new Date(heute);
+gestern.setDate(heute.getDate() - 7);
+let gesternSubstring = gestern.toISOString().substring(0, 10).trim();
+console.log("Gestern Substring: ", gesternSubstring);
 
 // 2024-04-08
 
-// let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-04-08T00%3A00%3A00%2B02%3A00&to=2024-04-08T23%3A59%3A00%2B02%3A00&pageSize=500`
+// let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-05-08T00%3A00%3A00%2B02%3A00&to=2024-05-08T23%3A59%3A00%2B02%3A00&pageSize=500`
 
 
 let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${gesternSubstring}T00%3A00%3A00%2B02%3A00&to=${gesternSubstring}T23%3A59%3A00%2B02%3A00&pageSize=500`
@@ -76,108 +78,132 @@ chooseRandomSong ()
 
 
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const datePicker = document.getElementById('datePicker');
+
+    const today = new Date();
+    const minValidDate = new Date(today);
+    minValidDate.setDate(today.getDate() - 7);
+    const minValidDateString = minValidDate.toISOString().split('T')[0];
+    const todayString = today.toISOString().split('T')[0];
+
+    // Set attributes for the date picker
+    datePicker.setAttribute('max', minValidDateString);
+    datePicker.setAttribute('min', '1900-01-01'); // Some very past date
+
+    datePicker.addEventListener('input', function() {
+        const selectedDate = new Date(datePicker.value);
+        if (selectedDate > minValidDate || selectedDate > today) {
+            datePicker.value = '';
+        } else {
+            showSongs(datePicker.value);
+        }
+    });
+
+    async function fetchData(url) {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data.songList;
+    }
+
+    async function showSongs(selectedDate) {
+        if (!selectedDate) {
+            alert("Bitte wählen Sie ein gültiges Datum.");
+            return;
+        }
+
+        const fromDate = `${selectedDate}T00%3A00%3A00%2B02%3A00`;
+        const toDate = `${selectedDate}T23%3A59%3A00%2B02%3A00`;
+
+        const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=500`;
+
+        let songs = await fetchData(url);
+        updateDOM(songs);
+    }
+
+
+    function formatDuration(duration) {
+        let seconds = Math.floor(duration / 1000);
+        let minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds} min`;
+    }
+
+    function updateDOM(songs) {
+        const container = document.getElementById('recommendations');
+        container.innerHTML = '';
+        if (songs && songs.length > 0) {
+            songs.forEach(song => {
+                const div = document.createElement('div');
+                div.className = 'song';
+                div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)})`;
+                container.appendChild(div);
+            });
+        } else {
+            container.innerHTML = '<p>Keine Songs gefunden.</p>';
+        }
+    }
+});
+
+function formatDuration(duration) {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = ((duration % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+
 async function showRandomSong() {
-    await callAPI(); //wait for the API to be loaded
+    await callAPI();
     let randomNumber = generateRandomNumber();
-   // console.log("Random Number: ",randomNumber);
     let randomSong = songs[randomNumber];
 
     let randomSongElement = document.getElementById('random_song');
+    
+    randomSongElement.innerHTML = '';
 
-    let titleDiv= document.createElement('div');
+    let titleDiv = document.createElement('div');
     titleDiv.innerHTML = randomSong.title;
-    titleDiv.setAttribute('class','title');
+    titleDiv.setAttribute('class', 'title');
     randomSongElement.appendChild(titleDiv);
 
-    let artistDiv = document.createElement('div');
-    artistDiv.innerHTML = randomSong.artist.name;
-    artistDiv.setAttribute('class', 'artist'); // Setzt die Klasse 'artist'
-    randomSongElement.appendChild(artistDiv);
-    
-    //randomSongElement.innerHTML = randomSong.title +" by "+ randomSong.artist.name;
-
+    let artistDurationDiv = document.createElement('div');
+    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)})`;
+    artistDurationDiv.setAttribute('class', 'artist-duration');
+    randomSongElement.appendChild(artistDurationDiv);
 }
+
 showRandomSong();
-//console.log("Unser Song: ",unserSong);
 
-
-//search song
 function searchSong() {
     let searchValue = document.getElementById('search').value;
-    //console.log("Search Value: ",searchValue);
     let foundSongs = songs.filter(song => song.title.toLowerCase().includes(searchValue.toLowerCase()));
-    //console.log("Found Songs: ",foundSongs);
 }
 
-
-// Funktion zum Filtern und Anzeigen von Songs
 function updateSongList(searchValue) {
     const songList = document.getElementById('songList');
-    songList.innerHTML = ''; // Liste leeren
+    songList.innerHTML = '';
 
     if (searchValue) {
         const foundSongs = songs.filter(song =>
             song.title.toLowerCase().includes(searchValue.toLowerCase())
         );
 
-        
         foundSongs.forEach(song => {
             const li = document.createElement('li');
-            //li.textContent = `${song.title} - ${song.artist.name}`;
-            li.textContent = song.title +" - "+song.artist.name;
-            document.createElement('a')
+            li.textContent = `${song.title} - ${song.artist.name} (${formatDuration(song.duration)})`;
             songList.appendChild(li);
-
         });
     }
 }
-
-
-
-// // Event Listener für das Suchfeld
-// document.getElementById('searchInput').addEventListener('input', (event) => {
-//     updateSongList(event.target.value);
-// });
-
-
-// function generateAutocomplete() {
-//     const searchInput = document.getElementById('autocomplete-input');
-//     const resultsContainer = document.getElementById('autocomplete-results');
-
-//     //const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Grape', 'Kiwi', 'Mango', 'Nectarine', 'Orange', 'Pineapple', 'Quince'];
-//     //console.log("Songs: ",songs);
-//     const items = songs.map(song => song.title+", "+song.artist.name);
-//     console.log("Songs: ",songs);
-
-//     searchInput.addEventListener('input', function() {
-//         const input = searchInput.value.toLowerCase();
-//         resultsContainer.innerHTML = '';
-
-//         if (input.length > 0) {
-//             const filteredItems = items.filter(item => item.toLowerCase().startsWith(input));
-
-//             filteredItems.forEach(function(item) {
-//                 const div = document.createElement('div');
-//                 div.textContent = item;
-//                 div.addEventListener('click', function() {
-//                     searchInput.value = item;
-//                     resultsContainer.innerHTML = '';
-//                 });
-//                 resultsContainer.appendChild(div);
-//             });
-//         }
-//     });
-// };
 
 function generateAutocomplete() {
     const searchInput = document.getElementById('autocomplete-input');
     const resultsContainer = document.getElementById('autocomplete-results');
 
-    // Array `songs` wird vorausgesetzt, dass es definiert und initialisiert wurde.
     const items = songs.map(song => ({
-        label: song.title + ", " + song.artist.name, // Komplette Beschriftung für Anzeige
-        title: song.title.toLowerCase(), // Titel in Kleinbuchstaben
-        artist: song.artist.name.toLowerCase() // Künstlername in Kleinbuchstaben
+        label: song.title + ", " + song.artist.name,
+        title: song.title.toLowerCase(),
+        artist: song.artist.name.toLowerCase()
     }));
 
     searchInput.addEventListener('input', function() {
@@ -185,7 +211,6 @@ function generateAutocomplete() {
         resultsContainer.innerHTML = '';
 
         if (input.length > 0) {
-            // Filtert sowohl nach Titel als auch Künstlernamen, die mit dem Eingabewert beginnen
             const filteredItems = items.filter(item => 
                 item.title.startsWith(input) || item.artist.startsWith(input)
             );
@@ -213,7 +238,7 @@ function displayRecommendations(songs) {
     songs.forEach(song => {
         const div = document.createElement('div');
         div.className = 'song';
-        div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name}`;
+        div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)})`;
         container.appendChild(div);
     });
 }
