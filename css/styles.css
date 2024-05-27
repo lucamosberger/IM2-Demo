@@ -1,21 +1,35 @@
+/* styles.css */
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     background-color: #000000;
-}
-
-p {
     color: #9df200;
+    min-height: 100vh;
 }
 
-h1 {color: #9df200;  
+.wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 0 30px;
+    box-sizing: border-box;
+    flex: 1 0 auto;
 }
 
-h2 {
+h1, h2, p {
     color: #9df200;
 }
 
 .autocomplete-container {
     position: relative;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
 }
 
 .autocomplete-results {
@@ -40,32 +54,78 @@ h2 {
 
 .autocomplete-results div:hover {
     background-color: #838383;
-
 }
 
-#random_song {
-  box-sizing: content-box;
+#random_song, #footer_random_song {
+    box-sizing: content-box;
     color: #9DF200;
     background-color: #838383;
-    width: 40;
+    padding: 10px;
+    margin: 10px 0;
 }
 
 #recommendation {
-color: aqua;
+    color: aqua;
 }
 
 #recommendations {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start; /* Optional: für Ausrichtung der Elemente */
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 30px;
+    box-sizing: border-box;
 }
 
 .song {
-    flex: 0 1 30%; /* Gibt an, dass jeder Song-Container 30% der Zeilenbreite einnimmt, ermöglicht drei Items pro Zeile */
-    margin: 10px;
+    flex: 0 1 100%;
+    margin: 10px 0;
     padding: 10px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
 }
 
+#load_more {
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #9df200;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
 
+#load_more:hover {
+    background-color: #838383;
+}
+
+footer {
+    background-color: #838383;
+    color: #9df200;
+    text-align: center;
+    padding: 30px;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+#play_pause_button {
+    background-color: #9df200;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+#play_pause_button:hover {
+    background-color: #000;
+    color: #9df200;
+}

@@ -7,64 +7,37 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <div class="wrapper">
+        <h1>SRF Virus API</h1>
 
-    <!-- <input type="text" id="search" placeholder="Search songs...">
-<input type="button" value="Search" onclick="searchSong()"> -->
+        <div class="autocomplete-container">
+            <input type="text" id="autocomplete-input" placeholder="Type to search...">
+            <div id="autocomplete-results" class="autocomplete-results"></div>
+        </div>
 
-<!-- <input type="text" id="searchInput" placeholder="Suche nach einem Song...">
-    <ul id="songList"></ul>
-</div> -->
+        <h1>Wählen Sie ein Datum</h1>
 
-<h1>SRF Virus API</h1>
+        <form id="dateForm">
+            <label for="datePicker">Datum:</label>
+            <input type="date" id="datePicker" name="datePicker">
+        </form>
+        
+        <div id="recommendations"></div>
+        <button id="load_more">Load More</button>
 
-<!-- <h2>Which song virus infects you today? </h2> -->
+        <h2>Random Virus</h2>
+        <div id="random_song"></div>
 
-
-   <!-- <div id="random_song_hardcoded" style="background-color: blue;color:white;">
-        <div id="song_title">Always look on the bride side of life</div>
-        <div id="song_artist">Monty Phyton</div>
-        <div id="duration">3:10</div>
-    </div>-->
-
-    <br>
-
-    <div class="autocomplete-container">
-        <input type="text" id="autocomplete-input" placeholder="Type to search...">
-        <div id="autocomplete-results" class="autocomplete-results"></div>
+        <h2>Durchsuche unsere sicken Songs</h2>
+        <div id="recommendations"></div>
     </div>
 
-
-    
-    <h1>Wählen Sie ein Datum</h1>
-
-    <form id="dateForm">
-      <label for="datePicker">Datum:</label>
-      <input type="date" id="datePicker" name="datePicker">
-    </form>
-    
-    <div id="recommendations"></div>
-    
-    <script src="script.js"></script>
-
-    
-    
-
-    <h2>Random Virus des Tages </h2>
-    <div id="random_song">
-    </div>
-
-    
-    <h2>Durchsuche unsere sicken Songs</h2>
-
-
-<div id="recommendations">
-    </div>
-
-
-
-
-    
+    <footer>
+        <button id="play_pause_button" onclick="togglePlayPause()">Play</button>
+        <h2>Random Virus</h2>
+        <div id="random_song_footer"></div>
+    </footer>
 
     <script src="js/script.js"></script>
 </body>
-</html> 
+</html>
