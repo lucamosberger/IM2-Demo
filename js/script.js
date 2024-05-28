@@ -1,4 +1,4 @@
-let songs = []
+let songs = [];
 let load_more_button = document.querySelector("#load_more");
 let amount = 15;
 
@@ -31,7 +31,7 @@ function updateDOM(songs) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
     if (songs && songs.length > 0) {
-        songs.forEach(song => {
+        songs.forEach((song, index) => {
             const div = document.createElement('div');
             div.className = 'song';
 
@@ -50,9 +50,18 @@ function updateDOM(songs) {
                 <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
                     <button>Apple Music</button>
                 </a>
+                <a href="#" class="changeSongLink" data-index="${index}">Play</a>
             `;
 
             container.appendChild(div);
+        });
+
+        document.querySelectorAll('.changeSongLink').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const songIndex = event.target.getAttribute('data-index');
+                updateFooter(songs[songIndex]);
+            });
         });
     } else {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
@@ -89,6 +98,24 @@ function showRandomSong(amount) {
     artistDurationDiv.setAttribute('class', 'artist-duration');
     randomSongElement.appendChild(artistDurationDiv);
     randomSongElementFooter.appendChild(artistDurationDiv.cloneNode(true));
+}
+
+function updateFooter(song) {
+    let footerElement = document.getElementById('random_song_footer');
+    footerElement.innerHTML = '';
+
+    let titleDiv = document.createElement('div');
+    titleDiv.innerHTML = song.title;
+    titleDiv.setAttribute('class', 'title');
+    footerElement.appendChild(titleDiv);
+
+    const songDate = new Date(song.date);
+    const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
+
+    let artistDurationDiv = document.createElement('div');
+    artistDurationDiv.innerHTML = `${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}`;
+    artistDurationDiv.setAttribute('class', 'artist-duration');
+    footerElement.appendChild(artistDurationDiv);
 }
 
 function generateAutocomplete(songs) {
