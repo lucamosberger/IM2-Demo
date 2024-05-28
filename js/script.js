@@ -2,6 +2,11 @@ let songs = [];
 let load_more_button = document.querySelector("#load_more");
 let amount = 15;
 
+// Initial filter values
+let currentDate = null;
+let currentFromTime = "00:00";
+let currentToTime = "23:59";
+
 /* Get Data from API */
 async function fetchData(url) {
     const response = await fetch(url);
@@ -9,14 +14,14 @@ async function fetchData(url) {
     return data.songList;
 }
 
-async function showSongs(selectedDate, amount) {
+async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:59") {
     if (!selectedDate) {
         alert("Bitte wählen Sie ein gültiges Datum.");
         return;
     }
 
-    const fromDate = `${selectedDate}T00%3A00%3A00%2B02%3A00`;
-    const toDate = `${selectedDate}T23%3A59%3A00%2B02%3A00`;
+    const fromDate = `${selectedDate}T${encodeURIComponent(fromTime)}%2B02%3A00`;
+    const toDate = `${selectedDate}T${encodeURIComponent(toTime)}%2B02%3A00`;
 
     const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=${amount}`;
 
@@ -182,11 +187,14 @@ function generateAutocomplete(songs) {
 
 function loadMoreSongs() {
     amount += 15;
-    showSongs(datePicker.value, amount);
+    showSongs(currentDate, amount, currentFromTime, currentToTime);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const datePicker = document.getElementById('datePicker');
+    const filterButton = document.getElementById('filter-button');
+    const fromTimeInput = document.getElementById('fromTime');
+    const toTimeInput = document.getElementById('toTime');
 
     const today = new Date();
     const minValidDate = new Date(today);
@@ -195,6 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const todayString = today.toISOString().split('T')[0];
 
     datePicker.value = minValidDateString;
+    currentDate = minValidDateString;
 
     // Set attributes for the date picker
     datePicker.setAttribute('max', minValidDateString);
@@ -207,8 +216,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedDate > minValidDate || selectedDate > minValidDateString) {
             datePicker.value = minValidDateString;
         } else {
-            showSongs(datePicker.value, amount);
+            currentDate = datePicker.value;
+            showSongs(datePicker.value, amount, currentFromTime, currentToTime);
         }
+    });
+
+    filterButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        currentDate = datePicker.value;
+        currentFromTime = fromTimeInput.value;
+        currentToTime = toTimeInput.value;
+        showSongs(currentDate, amount, currentFromTime, currentToTime);
     });
 
     load_more_button.addEventListener('click', loadMoreSongs);

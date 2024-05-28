@@ -30,6 +30,14 @@
             <input type="date" id="datePicker" name="datePicker">
         </form>
         
+        <form id="timeForm">
+            <label for="fromTime">Von:</label>
+            <input type="time" id="fromTime" name="fromTime" value="00:00">
+            <label for="toTime">Bis:</label>
+            <input type="time" id="toTime" name="toTime" value="23:59">
+            <button id="filter-button">Filter</button>
+        </form>
+        
         <div id="recommendations"></div>
         <button id="load_more">Load More</button>
 
