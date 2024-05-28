@@ -26,47 +26,66 @@ async function showSongs(selectedDate, amount) {
     generateAutocomplete(songs);
     showRandomSong(amount);
 }
-
 function updateDOM(songs) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
     if (songs && songs.length > 0) {
         songs.forEach((song, index) => {
-            const div = document.createElement('div');
-            div.className = 'song';
+            const mainDiv = document.createElement('div');
+            mainDiv.className = 'song';
 
-            const songDate = new Date(song.date);
-            const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
-
-            div.innerHTML = `
-                <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}
-                <br>
-                <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
-                    <button>YouTube</button>
-                </a>
-                <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
-                    <button>Spotify</button>
-                </a>
-                <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
-                    <button>Apple Music</button>
-                </a>
-                <a href="#" class="changeSongLink" data-index="${index}">Play</a>
-            `;
-
-            container.appendChild(div);
-        });
-
-        document.querySelectorAll('.changeSongLink').forEach(link => {
-            link.addEventListener('click', function(event) {
+            const playButton = document.createElement('a');
+            playButton.href = '#';
+            playButton.className = 'changeSongLink';
+            playButton.setAttribute('data-index', index);
+            playButton.innerHTML = '<button>Play</button>';
+            playButton.addEventListener('click', function(event) {
                 event.preventDefault();
                 const songIndex = event.target.getAttribute('data-index');
                 updateFooter(songs[songIndex]);
             });
+
+            const songInfoDiv = document.createElement('div');
+            songInfoDiv.className = 'song-info';
+            songInfoDiv.innerHTML = `
+                <div class="artist">${song.artist.name}</div>
+                <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
+                <div class="date">${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+            `;
+
+            const linksDiv = document.createElement('div');
+            linksDiv.className = 'links';
+            linksDiv.innerHTML = `
+                <div class="link">
+                    <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>YouTube</button>
+                    </a>
+                </div>
+                <div class="link">
+                    <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>Spotify</button>
+                    </a>
+                </div>
+                <div class="link">
+                    <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>Apple Music</button>
+                    </a>
+                </div>
+            `;
+
+            mainDiv.appendChild(playButton);
+            mainDiv.appendChild(songInfoDiv);
+            mainDiv.appendChild(linksDiv);
+
+            container.appendChild(mainDiv);
         });
     } else {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
     }
 }
+
+
+
 
 function formatDuration(duration) {
     const minutes = Math.floor(duration / 60000);
