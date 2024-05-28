@@ -1,4 +1,3 @@
-
 let songs = []
 let load_more_button = document.querySelector("#load_more");
 let amount = 15;
@@ -28,7 +27,6 @@ async function showSongs(selectedDate, amount) {
     showRandomSong(amount);
 }
 
-
 function updateDOM(songs) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
@@ -36,35 +34,25 @@ function updateDOM(songs) {
         songs.forEach(song => {
             const div = document.createElement('div');
             div.className = 'song';
-            div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)})`;
+
+            const songDate = new Date(song.date);
+            const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
+
+            div.innerHTML = `
+                <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}
+                <br>
+                <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>YouTube</button>
+                </a>
+                <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>Spotify</button>
+                </a>
+                <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>Apple Music</button>
+                </a>
+            `;
+
             container.appendChild(div);
-           
-  // YouTube search URL with encoded query parameters
-  const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Spotify search URL with encoded query parameters
-  const spotifySearchUrl = `https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Apple Music search URL with encoded query parameters
-  const appleMusicSearchUrl = `https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Create the HTML structure including the buttons
-  div.innerHTML = `
-      <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)})
-      <br>
-      <a href="${youtubeSearchUrl}" target="_blank">
-          <button>YouTube</button>
-      </a>
-      <a href="${spotifySearchUrl}" target="_blank">
-          <button>Spotify</button>
-      </a>
-      <a href="${appleMusicSearchUrl}" target="_blank">
-          <button>Apple Music</button>
-      </a>
-  `;
-
-  // Append the div to the container
-  container.appendChild(div);
         });
     } else {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
@@ -78,7 +66,6 @@ function formatDuration(duration) {
 }
 
 function showRandomSong(amount) {
-    // await callAPI();
     let randomNumber = Math.floor(Math.random() * amount);
     let randomSong = songs[randomNumber];
 
@@ -94,14 +81,15 @@ function showRandomSong(amount) {
     randomSongElement.appendChild(titleDiv);
     randomSongElementFooter.appendChild(titleDiv.cloneNode(true));
 
+    const songDate = new Date(randomSong.date);
+    const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
 
     let artistDurationDiv = document.createElement('div');
-    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)})`;
+    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)}) - ${formattedDate}`;
     artistDurationDiv.setAttribute('class', 'artist-duration');
     randomSongElement.appendChild(artistDurationDiv);
     randomSongElementFooter.appendChild(artistDurationDiv.cloneNode(true));
 }
-
 
 function generateAutocomplete(songs) {
     console.log(songs);
@@ -136,15 +124,10 @@ function generateAutocomplete(songs) {
     });
 }
 
-
 function loadMoreSongs() {
     amount += 15;
     showSongs(datePicker.value, amount);
 }
-
-
-
-
 
 document.addEventListener('DOMContentLoaded', function() {
     const datePicker = document.getElementById('datePicker');
@@ -172,17 +155,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    
-
     load_more_button.addEventListener('click', loadMoreSongs);
-
 });
-
-
-
-
-
-
-
-
-
