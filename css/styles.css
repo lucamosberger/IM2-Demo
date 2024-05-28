@@ -1,5 +1,13 @@
 /* styles.css */
 
+
+:root {
+    --light-grey: #CFCFCF;
+    --dark-grey: #434040;
+    --accent-color: #9df200;
+    --background-color: #000000;
+    --basic-text-color: white;
+}
 html, body {
     height: 100%;
     margin: 0;
@@ -9,9 +17,56 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #000000;
-    color: #9df200;
     min-height: 100vh;
+   
 }
+
+/* Set the base font size */
+html {
+    font-size: 16px;
+  }
+  
+  /* Define font sizes using rem units */
+  body {
+    font-size: 1rem; /* 16px */
+  }
+  
+  h1 {
+    font-size: 2rem; /* 32px */
+    color:var(--accent-color)
+  }
+  
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+  
+  p {
+    font-size: 1rem; /* 16px */
+  }
+  
+  .small-text {
+    font-size: 0.875rem; /* 14px */
+  }
+  
+  /* Adjust the base font size for different screen sizes */
+  @media (max-width: 1200px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    html {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    html {
+      font-size: 13px;
+    }
+  }
+  
 
 .wrapper {
     width: 100%;
@@ -21,15 +76,13 @@ body {
     flex: 1 0 auto;
 }
 
-h1, h2, p {
-    color: #9df200;
-}
 
 .autocomplete-container {
     position: relative;
     width: 100%;
     max-width: 300px;
     margin-bottom: 20px;
+    background-color: none
 }
 
 .autocomplete-results {
@@ -43,7 +96,7 @@ h1, h2, p {
     padding: 0;
     margin: 0;
     list-style: none;
-    background-color: white;
+    background-color: #838383;
 }
 
 .autocomplete-results div {
@@ -73,25 +126,30 @@ h1, h2, p {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: flex-start;
-    width: 100%;
+    width: 66%;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0px, 0px;
     box-sizing: border-box;
+    color: var(--basic-text-color)
 }
 
 .song {
     flex: 0 1 100%;
     margin: 10px 0;
     padding: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: var(--dark-grey);
+    background-color: var(--dark-grey);    
+}
+.song:hover {
+       border-color: var(--accent-color);
 }
 
 #load_more {
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: #9df200;
-    color: #000;
+    background-color: var(--dark-grey);
+    color: var(--accent-color);
     border: none;
     cursor: pointer;
     display: block;
