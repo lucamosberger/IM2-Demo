@@ -34,12 +34,28 @@ function updateDOM(songs) {
             const mainDiv = document.createElement('div');
             mainDiv.className = 'song';
 
-            const playButton = document.createElement('a');
-            playButton.href = '#';
-            playButton.className = 'changeSongLink';
-            playButton.setAttribute('data-index', index);
-            playButton.innerHTML = '<button>Play</button>';
-            playButton.addEventListener('click', function(event) {
+            const songDate = new Date(song.date);
+            const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
+            div.innerHTML = `
+                <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}
+                <br>
+                <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>YouTube</button>
+                </a>
+                <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>Spotify</button>
+                </a>
+                <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                    <button>Apple Music</button>
+                </a>
+                <a href="#" class="changeSongLink" data-index="${index}">Play</a>
+            `;
+
+            container.appendChild(div);
+        });
+
+        document.querySelectorAll('.changeSongLink').forEach(link => {
+            link.addEventListener('click', function(event) {
                 event.preventDefault();
                 const songIndex = event.target.getAttribute('data-index');
                 updateFooter(songs[songIndex]);
@@ -137,6 +153,7 @@ function updateFooter(song) {
     footerElement.appendChild(artistDurationDiv);
 }
 
+//Search Song
 function generateAutocomplete(songs) {
     console.log(songs);
     const searchInput = document.getElementById('autocomplete-input');

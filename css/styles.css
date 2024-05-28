@@ -1,13 +1,21 @@
 /* styles.css */
 
 
+
+
+/*schirftart */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 :root {
     --light-grey: #CFCFCF;
     --dark-grey: #434040;
     --accent-color: #9df200;
     --background-color: #000000;
     --basic-text-color: white;
+    font-family: Inter;
+    color: white;
 }
+
 html, body {
     height: 100%;
     margin: 0;
@@ -66,6 +74,26 @@ html {
       font-size: 13px;
     }
   }
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--dark-grey);
+    height: 10%;
+    width: 100%;
+}
+header h1 {
+    color: var(--accent-color);
+    text-align: center;
+    padding: 2.5% 0 2.5% 0;
+    margin: 0;
+    font-size: 1rem;
+}
+
+header img{
+    height: 50%;
+    
+}
   
 
 .wrapper {
@@ -135,6 +163,9 @@ html {
 
 .song {
     flex: 0 1 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     margin: 10px 0;
     padding: 10px;
     border: 1px solid;
@@ -144,7 +175,20 @@ html {
 .song:hover {
        border-color: var(--accent-color);
 }
+.song button{
+    background-color: var(--light-grey);
+    color: var(--background-color);
+    cursor: ponter;
+    border: none;
+    margin-right: 10px;
+}
 
+.song button:hover{
+    background-color: var(--dark-grey);
+    color: var(--accent-color);
+    border: 2px solid;
+    border-color: var(--light-grey);
+}
 #load_more {
     margin: 20px auto;
     padding: 10px 20px;
@@ -161,11 +205,12 @@ html {
 }
 
 footer {
-    background-color: #838383;
-    color: #9df200;
+    background-color:var(--dark-grey);
+    color: white;
     text-align: center;
-    padding: 30px;
+    padding: 2%;
     width: 100%;
+    height: 5%;
     position: sticky;
     bottom: 0;
     display: flex;
