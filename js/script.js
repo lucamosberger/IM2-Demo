@@ -72,7 +72,6 @@ function updateDOM(songs) {
             mainDiv.appendChild(playButton);
             mainDiv.appendChild(songInfoDiv);
             mainDiv.appendChild(linksDiv);
-
             container.appendChild(mainDiv);
         });
 
