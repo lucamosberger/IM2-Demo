@@ -56,17 +56,17 @@ function updateDOM(songs) {
             const linksDiv = document.createElement('div');
             linksDiv.className = 'links';
             linksDiv.innerHTML = `
-                <div class="link">
+                <div class="link_youtube">
                     <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
                         <button>YouTube</button>
                     </a>
                 </div>
-                <div class="link">
+                <div class="link_spotify">
                     <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
                         <button>Spotify</button>
                     </a>
                 </div>
-                <div class="link">
+                <div class="link_apple_music">
                     <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
                         <button>Apple Music</button>
                     </a>
