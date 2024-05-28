@@ -40,11 +40,6 @@ function updateDOM(songs) {
             playButton.className = 'changeSongLink';
             playButton.setAttribute('data-index', index);
             playButton.innerHTML = '<button>Play</button>';
-            playButton.addEventListener('click', function(event) {
-                event.preventDefault();
-                const songIndex = event.target.getAttribute('data-index');
-                updateFooter(songs[songIndex]);
-            });
 
             const songInfoDiv = document.createElement('div');
             songInfoDiv.className = 'song-info';
@@ -79,6 +74,14 @@ function updateDOM(songs) {
             mainDiv.appendChild(linksDiv);
 
             container.appendChild(mainDiv);
+        });
+
+        document.querySelectorAll('.changeSongLink').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const songIndex = event.currentTarget.getAttribute('data-index');
+                updateFooter(songs[songIndex]);
+            });
         });
     } else {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
@@ -140,6 +143,7 @@ function generateAutocomplete(songs) {
     console.log(songs);
     const searchInput = document.getElementById('autocomplete-input');
     const resultsContainer = document.getElementById('autocomplete-results');
+    const searchButton = document.getElementById('search-button');
 
     const items = songs.map(song => ({
         label: song.title + ", " + song.artist.name,
@@ -165,6 +169,14 @@ function generateAutocomplete(songs) {
                 });
                 resultsContainer.appendChild(div);
             });
+        }
+    });
+
+    searchButton.addEventListener('click', function() {
+        const selectedSong = items.find(item => item.label.toLowerCase() === searchInput.value.toLowerCase());
+        if (selectedSong) {
+            const songIndex = items.findIndex(item => item.label.toLowerCase() === searchInput.value.toLowerCase());
+            updateFooter(songs[songIndex]);
         }
     });
 }

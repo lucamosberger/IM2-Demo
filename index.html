@@ -6,19 +6,19 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header> 
         <img src="/Assets/V.svg" alt="SRF Virus Logo">
-        <h1 class="header">SRF Virus API </h1> </header>
+        <h1 class="header">SRF Virus API </h1> 
+    </header>
     
     <div class="wrapper">
-        
-
         <div class="autocomplete-container">
             <input type="text" id="autocomplete-input" placeholder="Type to search...">
+            <button id="search-button">Enter</button>
             <div id="autocomplete-results" class="autocomplete-results"></div>
         </div>
 
@@ -29,7 +29,6 @@
             <label for="datePicker">Datum:</label>
             <input type="date" id="datePicker" name="datePicker">
         </form>
-        <!-- <input type="datetime-local" id="datetime_local" value=""> -->
         
         <div id="recommendations"></div>
         <button id="load_more">Load More</button>
