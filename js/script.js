@@ -37,7 +37,6 @@ function updateDOM(songs) {
 
             const songDate = new Date(song.date);
             const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
-
             div.innerHTML = `
                 <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}
                 <br>
@@ -54,7 +53,6 @@ function updateDOM(songs) {
             `;
 
             container.appendChild(div);
-<<<<<<< Updated upstream
         });
 
         document.querySelectorAll('.changeSongLink').forEach(link => {
@@ -63,35 +61,6 @@ function updateDOM(songs) {
                 const songIndex = event.target.getAttribute('data-index');
                 updateFooter(songs[songIndex]);
             });
-=======
-           
-  // Construct the YouTube search URL with encoded query parameters
-  const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Construct the Spotify search URL with encoded query parameters
-  const spotifySearchUrl = `https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Construct the Apple Music search URL with encoded query parameters
-  const appleMusicSearchUrl = `https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}`;
-
-  // Create the HTML structure including the buttons
-  div.innerHTML = `
-      <strong>${song.title}</strong> von ${song.artist.name} (${formatDuration(song.duration)})
-      <br>
-      <a href="${youtubeSearchUrl}" target="_blank">
-          <button>YouTube</button>
-      </a>
-      <a href="${spotifySearchUrl}" target="_blank">
-          <button>Spotify</button>
-      </a>
-      <a href="${appleMusicSearchUrl}" target="_blank">
-          <button>Apple Music</button>
-      </a>
-  `;
-
-  // Append the div to the container
-  container.appendChild(div);
->>>>>>> Stashed changes
         });
     } else {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
@@ -148,6 +117,7 @@ function updateFooter(song) {
     footerElement.appendChild(artistDurationDiv);
 }
 
+//Search Song
 function generateAutocomplete(songs) {
     console.log(songs);
     const searchInput = document.getElementById('autocomplete-input');
