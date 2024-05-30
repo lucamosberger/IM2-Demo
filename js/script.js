@@ -51,7 +51,7 @@ function updateDOM(songs) {
             songInfoDiv.innerHTML = `
                 <div class="artist">${song.artist.name}</div>
                 <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
-                <div class="date">${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+                <div class="date"> <p class="Spieldatum"> Spieldatum</p>${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
             `;
 
             const linksDiv = document.createElement('div');
