@@ -128,18 +128,42 @@ function updateFooter(song) {
     let footerElement = document.getElementById('random_song_footer');
     footerElement.innerHTML = '';
 
-    let titleDiv = document.createElement('div');
-    titleDiv.innerHTML = song.title;
-    titleDiv.setAttribute('class', 'title');
-    footerElement.appendChild(titleDiv);
+    const playButton = document.createElement('a');
+    playButton.href = '#';
+    playButton.className = 'changeSongLink';
+    playButton.innerHTML = '<button>Play</button>';
 
-    const songDate = new Date(song.date);
-    const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
+    const songInfoDiv = document.createElement('div');
+    songInfoDiv.className = 'song-info';
+    songInfoDiv.innerHTML = `
+        <div class="artist">${song.artist.name}</div>
+        <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
+        <div class="date">${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+    `;
 
-    let artistDurationDiv = document.createElement('div');
-    artistDurationDiv.innerHTML = `${song.artist.name} (${formatDuration(song.duration)}) - ${formattedDate}`;
-    artistDurationDiv.setAttribute('class', 'artist-duration');
-    footerElement.appendChild(artistDurationDiv);
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'links';
+    linksDiv.innerHTML = `
+        <div class="link_youtube">
+            <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>YouTube</button>
+            </a>
+        </div>
+        <div class="link_spotify">
+            <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>Spotify</button>
+            </a>
+        </div>
+        <div class="link_apple_music">
+            <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>Apple Music</button>
+            </a>
+        </div>
+    `;
+
+    footerElement.appendChild(playButton);
+    footerElement.appendChild(songInfoDiv);
+    footerElement.appendChild(linksDiv);
 }
 
 //Search Song
