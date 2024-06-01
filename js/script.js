@@ -31,7 +31,6 @@ async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:
     generateAutocomplete(songs);
     showRandomSong(amount);
 }
-
 function updateDOM(songs) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
@@ -44,14 +43,19 @@ function updateDOM(songs) {
             playButton.href = '#';
             playButton.className = 'changeSongLink';
             playButton.setAttribute('data-index', index);
-            playButton.innerHTML = '<button>Play</button>';
+            playButton.innerHTML = '<button class="play-btn">Play</button>';
 
             const songInfoDiv = document.createElement('div');
             songInfoDiv.className = 'song-info';
             songInfoDiv.innerHTML = `
                 <div class="artist">${song.artist.name}</div>
                 <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
-                <div class="date"> <p class="Spieldatum"> Spieldatum</p>${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+`;
+            const songTimeDiv = document.createElement('div');
+            songTimeDiv.className = 'song-time';
+            songTimeDiv.innerHTML = `
+              <div class="date">Spieldatum</div>
+              ${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
             `;
 
             const linksDiv = document.createElement('div');
@@ -76,6 +80,7 @@ function updateDOM(songs) {
 
             mainDiv.appendChild(playButton);
             mainDiv.appendChild(songInfoDiv);
+            mainDiv.appendChild(songTimeDiv);
             mainDiv.appendChild(linksDiv);
             container.appendChild(mainDiv);
         });
@@ -91,6 +96,7 @@ function updateDOM(songs) {
         container.innerHTML = '<p>Keine Songs gefunden.</p>';
     }
 }
+
 
 function formatDuration(duration) {
     const minutes = Math.floor(duration / 60000);
@@ -118,7 +124,7 @@ function showRandomSong(amount) {
     const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
 
     let artistDurationDiv = document.createElement('div');
-    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)}) - ${formattedDate}`;
+    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)})`; // - ${formattedDate}
     artistDurationDiv.setAttribute('class', 'artist-duration');
     randomSongElement.appendChild(artistDurationDiv);
     randomSongElementFooter.appendChild(artistDurationDiv.cloneNode(true));
@@ -131,18 +137,17 @@ function updateFooter(song) {
     const playButton = document.createElement('a');
     playButton.href = '#';
     playButton.className = 'changeSongLink';
-    playButton.innerHTML = '<button>Play</button>';
+    // playButton.innerHTML = '<button>Play</button>';
 
     const songInfoDiv = document.createElement('div');
-    songInfoDiv.className = 'song-info';
+    songInfoDiv.className = 'footer-song-info';
     songInfoDiv.innerHTML = `
-        <div class="artist">${song.artist.name}</div>
-        <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
-        <div class="date">${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+    ${song.artist.name}
+    ${song.title} (${formatDuration(song.duration)})
     `;
 
     const linksDiv = document.createElement('div');
-    linksDiv.className = 'links';
+    linksDiv.className = 'footer-links';
     linksDiv.innerHTML = `
         <div class="link_youtube">
             <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
