@@ -22,7 +22,6 @@ body {
     flex-direction: column;
     background-color: #000000;
     min-height: 100vh;
-   
 }
 
 /* Set the base font size */
@@ -199,7 +198,6 @@ header img{
     display: flex;
 
 }
-
     
 #load_more {
     margin: 20px auto;
@@ -243,4 +241,46 @@ footer {
 #play_pause_button:hover {
     background-color: #000;
     color: #9df200;
+}
+
+.team-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+.team-members {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.team-member {
+    flex: 1 1 300px;
+    margin: 20px;
+    background-color: #838383;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-member:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #9df200
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+.team-member h2 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+.team-member p {
+    color: black;
+    font-size: 16px;
 }
