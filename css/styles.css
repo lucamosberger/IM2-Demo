@@ -408,12 +408,19 @@ div.Suchfunktionen button {
 /*-----------Footer-----------------------*/
 
 button {
-    background-color:var(--accent-color);
+    background-color:var(--light-grey);
     color: var(--background-color);
-    border: none;
+    border: 1px solid var(--light-grey);
     padding: 10px 20px;
     cursor: pointer;
     font-size: 0.75rem;
+    
+}
+button:hover {
+    background-color: var(--dark-grey);
+    color: var(--accent-color);
+    border-color: var(--light-grey);
+    border: 1px solid;
 }
 
 #playPauseButton {
