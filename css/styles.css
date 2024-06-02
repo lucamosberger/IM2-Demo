@@ -1,6 +1,8 @@
 /* Schriftart */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+
+/*Farbdefinition */
 :root {
     --light-grey: #CFCFCF;
     --dark-grey: #434040;
@@ -59,11 +61,12 @@ p {
     font-size: 0.875rem; /* 14px */
 }
   
-/* Adjust the base font size for different screen sizes */
+/* Different screen sizes */
 @media (max-width: 1200px) {
     html {
         font-size: 15px;
     }
+    
 }
   
 @media (max-width: 900px) {
@@ -71,10 +74,11 @@ p {
         font-size: 14px;
     }
     .links {
-        margin-top: 10px;
-}
+        margin-top: 10px;}
+    }
   
 @media (max-width: 600px) {
+
     html {
         font-size: 13px;
     }
@@ -89,7 +93,9 @@ footer h2 {
 }
 
 }
-    }
+
+/* Ende Differen screen sizes */
+
 
 header {
     display: flex;
@@ -123,6 +129,7 @@ header img {
     flex: 1 0 auto;
 }
 
+/*------------------Suchfunktionen-----------------------*/
 .Suchfunktionen {
     display: flex;
     flex-wrap: wrap;
@@ -150,7 +157,7 @@ form {
 }
 
 
-/*Suchfunktionen*/
+/* Einzelne Suchfunktionen*/
 .SucheNachDatum {
     width: 40%;
     min-width: 300px;
@@ -209,6 +216,9 @@ input {
 .autocomplete-results div:hover {
     background-color:var(--light-grey);
 }
+/*------------------ Ende Suchfunktionen-----------------------*/
+
+/*------------------Songcard-----------------------*/
 
 #random_song, #footer_random_song {
     box-sizing: content-box;
@@ -222,8 +232,6 @@ input {
     margin-bottom: 40; /* Abstand unter dem Formular */
     gap: 10px;
 }
-
-
 
 #recommendations {
     display: flex;
@@ -302,6 +310,10 @@ input {
     display: flex;
     flex-wrap: wrap;
 }
+
+/*------------------Ende Songcard-----------------------*/
+
+/*------------------Mehr Laden-----------------------*/
     
 #load_more {
     margin: 30px auto;
@@ -321,6 +333,8 @@ input {
     transform: scale(1.05);
     box-shadow: 0 0 20px var(--accent-color);
 }
+
+/*------------------Ende Mehr Laden-----------------------*/
 
 footer {
     background-color: var(--dark-grey);
