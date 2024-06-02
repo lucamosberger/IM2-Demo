@@ -23,7 +23,11 @@ async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:
     const fromDate = `${selectedDate}T${encodeURIComponent(fromTime)}%2B02%3A00`;
     const toDate = `${selectedDate}T${encodeURIComponent(toTime)}%2B02%3A00`;
 
-    const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=${amount}`;
+    // Radio SRF VIRUS API (DATEN NICHT REGELMÄSSIG VERFÜGBAR)
+    // const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=${amount}`;
+    
+    // Radio SRF 3 API (DATEN BIS ZUM HEUTIGEN TAG VERFÜGBAR)
+    const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/69e8ac16-4327-4af4-b873-fd5cd6e895a7?from=${fromDate}&to=${toDate}&pageSize=${amount}`;	
 
     console.log(url);
     songs = await fetchData(url);
@@ -227,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const today = new Date();
     const minValidDate = new Date(today);
-    minValidDate.setDate(today.getDate() - 10);
+    minValidDate.setDate(today.getDate() - 0);
     const minValidDateString = minValidDate.toISOString().split('T')[0];
     const todayString = today.toISOString().split('T')[0];
 
