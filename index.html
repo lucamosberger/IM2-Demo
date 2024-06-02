@@ -19,7 +19,7 @@
 <div class="Suchfunktionen">
         <div class="EintippSuche">
             <h1 class="songVerpasst">Song verpasst?</h1>
-            <p class="songVerpasst">Hier kannst du nach deinem Song suchen </p>
+            <p class="TextSongVerpasst">Hier kannst du nach deinem Song suchen </p>
             <div class="autocomplete-container">
                 <input type="text" id="autocomplete-input" placeholder="Songtitel suchen...">
                 <button id="search-button">Suchen</button>
@@ -28,17 +28,17 @@
         </div>
         <div class="SucheNachDatum">
             <h1 class="songVerpasst">Abspieldatum Suchen</h1>
-            <p class="songVerpasst">Wann hast du den Song auf SRF Virus gehört?</p>
+            <p class="TextSongVerpasst">Wann hast du den Song auf SRF Virus gehört?</p>
 
             <form id="dateForm">
-                <label for="datePicker">Datum:</label>
+                <label for="datePicker">Datum</label>
                 <input type="date" id="datePicker" name="datePicker">
             </form>
             
             <form id="timeForm">
-                <label for="fromTime">Von:</label>
+                <label for="fromTime">Von</label>
                 <input type="time" id="fromTime" name="fromTime" value="00:00">
-                <label for="toTime">Bis:</label>
+                <label for="toTime">Bis</label>
                 <input type="time" id="toTime" name="toTime" value="23:59">
                 <button id="filter-button">Filter</button>
             </form>
@@ -48,11 +48,6 @@
         
         <div id="recommendations"></div>
         <button id="load_more">Load More</button>
-
-        <h2>Random Virus</h2>
-        <div id="random_song"></div>
-
-  
 
     </div>
 
@@ -81,7 +76,8 @@
     
     <footer>
         <button id="play_pause_button" onclick="togglePlayPause()">Play</button>
-        <h2>Random Virus</h2>
+        <h2>Now playing
+        </h2>
         <div id="random_song_footer"></div>
     </footer>
 

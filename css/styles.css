@@ -43,9 +43,16 @@ h1 {
 h2 {
     font-size: 1.5rem; /* 24px */
 }
-  
+
+footer h2 {
+    margin-left: 2%;
+    size: 1rem;
+    color: var(--accent-color);
+}
+ 
 p {
     font-size: 1rem; /* 16px */
+  
 }
   
 .small-text {
@@ -63,9 +70,8 @@ p {
     html {
         font-size: 14px;
     }
-
-
-
+    .links {
+        margin-top: 10px;
 }
   
 @media (max-width: 600px) {
@@ -73,6 +79,7 @@ p {
         font-size: 13px;
     }
 
+}
     }
 
 
@@ -100,29 +107,6 @@ header img {
 }
 
 
-.songVerpasst {
-    display: flex;
-    flex: auto;
-    flex-direction: column;
-    margin: top 10vp;
-    
-}
-
-/*Suchfunktionen*/
-.SucheNachDatum {
-    border: 3px solid;
-    border-color: red;
-    width: 40%;
-
-}
-
-.EintippSuche {
-    border: 3px solid;
-    border-color: green;
-    width: 40%;
-
-}
-
 
 .wrapper {
     width: 100%;
@@ -134,11 +118,61 @@ header img {
 
 .Suchfunktionen {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     border: red;
     border: 3px solid;
+}
+.Suchfunktionen p {
+    margin: 0;
+    padding: 0 0 10px 0;
+    font-size: 0.8rem;
+    color: white;
+}
+
+form {
+    font: Inter;
+    font-size: 0.8rem;
+
+}
+
+
+.songVerpasst {
+    display: flex;
+    flex-direction: column;
+    margin: top 0;
+    padding-top: none;
+}
+
+
+/*Suchfunktionen*/
+.SucheNachDatum {
+    border: 3px solid;
+    border-color: red;
+    width: 40%;
+    min-width: 300px;
+    display: block;
+
+}
+
+.EintippSuche {
+    border: 3px solid;
+    border-color: green;
+    width: 40%;
+    min-width: 300px;
+    display: block;
+  
+
+}
+/* -------Einputtfeld------*/
+input {
+    height: 20px;
+    font-family: Inter;
+    font-size: 0.75rem;
+    border-color: none;
+    box-shadow: none;
+    width: auto;
+    margin: 5px 2.5px 5px 2.5px;
 }
 
 
@@ -161,23 +195,23 @@ header img {
     padding: 0;
     margin: 0;
     list-style: none;
-    background-color: #838383;
+    background-color:var(--light-grey);
 }
 
 .autocomplete-results div {
     padding: 10px;
     cursor: pointer;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--light-grey);
 }
 
 .autocomplete-results div:hover {
-    background-color: #838383;
+    background-color:var(--light-grey);
 }
 
 #random_song, #footer_random_song {
     box-sizing: content-box;
-    color: #9df200;
-    background-color: #838383;
+    color: var(--accent-color);
+    background-color: var(--light-grey);
     padding: 10px;
     margin: 10px 0;
 }
@@ -232,7 +266,7 @@ header img {
     height: 100%;
     width: 30%;
 
-    .artist {
+.artist {
         font-size: 1.1rem;
         font-weight: bold;
         margin-bottom: 10px;
@@ -270,13 +304,14 @@ header img {
 }
 
 #load_more:hover {
-    background-color: #838383;
+    background-color: var(--light-grey);
 }
 
 footer {
     background-color: var(--dark-grey);
     color: white;
     text-align: center;
+    flex-wrap: wrap;
     padding: 2%;
     width: 100%;
     height: 5%;
@@ -285,6 +320,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1vb;
     flex-shrink: 0;
 }
 
@@ -316,7 +352,7 @@ footer {
 
 .team-member:hover {
     transform: scale(1.05);
-    box-shadow: 0 0 20px #9df200;
+    box-shadow: 0 0 20px var(--accent-color);
 }
 
 .team-member img {
@@ -347,18 +383,20 @@ button {
 }
 
 button:hover {
-    background-color: var(--background-color);
-    color: var(--dark-grey);
+    background-color: var(--dark-grey);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    border: none;
     
 }
 
+/* Button Songcard */
 .song button {
     background-color: var(--light-grey);
-    border: 2px solid;
+    border: 1px solid;
     border-color: var(--light-grey);
     color: var(--background-color);
     cursor: pointer;
-    border: none;
     margin-right: 10px;
     margin-bottom: 10px;
 }
@@ -366,36 +404,49 @@ button:hover {
 .song button:hover {
     background-color: var(--dark-grey);
     color: var(--accent-color);
-    border: 2px solid;
+    border: 1px solid;
     border-color: var(--light-grey);
 }
 
 /*-----------Footer-----------------------*/
 
-#playPauseButton,
 button {
     background-color:var(--accent-color);
     color: var(--background-color);
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 0.75rem;
+}
+
+#playPauseButton {
+    background-color:var(--accent-color);
+    color: var(--background-color);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 42px;
+
 }
 
 #playPauseButton.playing,
 button.playing {
-    background-color: #000;
-    color: #9df200;
+    background-color: var(--background-color);
+    color: var(--accent-color);
 }
 
+/*Playbutton Songcard*/
 button.play-btn {
-    background-color: #9df200;
-    color: #000;
-    border: none;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+    border: 1px solid;
+    border-color: var(--accent-color);
     padding: 10px 20px;
     cursor: pointer;
     font-size: 12px;
 }
+
+
 /*End Button generell*/
 
 
@@ -417,11 +468,13 @@ button.play-btn {
     height: 100%;
     width: 30%;
 
-    .artist {
-        font-size: 1.1rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+   
+}
+
+.artist {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .footer-links {
