@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const today = new Date();
     const minValidDate = new Date(today);
-    minValidDate.setDate(today.getDate() - 10);
+    minValidDate.setDate(today.getDate() - 14);
     const minValidDateString = minValidDate.toISOString().split('T')[0];
     const todayString = today.toISOString().split('T')[0];
 
