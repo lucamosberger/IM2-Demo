@@ -82,8 +82,6 @@ p {
 }
     }
 
-
-
 header {
     display: flex;
     align-items: center;
@@ -120,8 +118,6 @@ header img {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    border: red;
-    border: 3px solid;
 }
 .Suchfunktionen p {
     margin: 0;
@@ -131,7 +127,7 @@ header img {
 }
 
 form {
-    font: Inter;
+    font-family: Inter;
     font-size: 0.8rem;
 
 }
@@ -147,17 +143,14 @@ form {
 
 /*Suchfunktionen*/
 .SucheNachDatum {
-    border: 3px solid;
-    border-color: red;
     width: 40%;
     min-width: 300px;
     display: block;
+    
 
 }
 
 .EintippSuche {
-    border: 3px solid;
-    border-color: green;
     width: 40%;
     min-width: 300px;
     display: block;
@@ -175,12 +168,12 @@ input {
     margin: 5px 2.5px 5px 2.5px;
 }
 
-
 .autocomplete-container {
     position: relative;
     width: 100%;
     max-width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 15px;
     background-color: none;
 }
 
@@ -218,12 +211,10 @@ input {
 
 #timeForm {
     margin-bottom: 40; /* Abstand unter dem Formular */
+    gap: 10px;
 }
 
-#recommendation {
-    color: aqua;
-    
-}
+
 
 #recommendations {
     display: flex;
@@ -388,6 +379,12 @@ button:hover {
     border-color: var(--accent-color);
     border: none;
     
+}
+
+/*---------------Abspieldatum-----------*/
+/* Abstand Buttons zu Inputfeld */
+div.Suchfunktionen button {
+    margin-left: 5%
 }
 
 /* Button Songcard */
