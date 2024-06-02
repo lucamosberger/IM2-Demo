@@ -1,19 +1,20 @@
+// Globale Variablen und Initialisierungen
 let songs = [];
 let load_more_button = document.querySelector("#load_more");
 let amount = 15;
 
-// Initial filter values
+// Initiale Filterwerte
 let currentDate = null;
 let currentFromTime = "00:00";
 let currentToTime = "23:59";
 
-/* Get Data from API */
+// Daten von der API abrufen
 async function fetchData(url) {
     const response = await fetch(url);
     const data = await response.json();
     return data.songList;
 }
-
+// Songs anzeigen
 async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:59") {
     if (!selectedDate) {
         alert("Bitte wählen Sie ein gültiges Datum.");
@@ -25,7 +26,7 @@ async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:
 
     // Radio SRF VIRUS API (DATEN NICHT REGELMÄSSIG VERFÜGBAR)
     // const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=${amount}`;
-    
+
     // Radio SRF 3 API (DATEN BIS ZUM HEUTIGEN TAG VERFÜGBAR)
     const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/69e8ac16-4327-4af4-b873-fd5cd6e895a7?from=${fromDate}&to=${toDate}&pageSize=${amount}`;	
 
@@ -33,8 +34,8 @@ async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:
     songs = await fetchData(url);
     updateDOM(songs);
     generateAutocomplete(songs);
-    showRandomSong(amount);
 }
+// DOM aktualisieren
 function updateDOM(songs) {
     const container = document.getElementById('recommendations');
     container.innerHTML = '';
@@ -101,39 +102,15 @@ function updateDOM(songs) {
     }
 }
 
-
+// Dauer formatieren
 function formatDuration(duration) {
     const minutes = Math.floor(duration / 60000);
     const seconds = ((duration % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-function showRandomSong(amount) {
-    let randomNumber = Math.floor(Math.random() * amount);
-    let randomSong = songs[randomNumber];
 
-    let randomSongElement = document.getElementById('random_song');
-    let randomSongElementFooter = document.getElementById('random_song_footer');
-    
-    randomSongElement.innerHTML = '';
-    randomSongElementFooter.innerHTML = '';
-
-    let titleDiv = document.createElement('div');
-    titleDiv.innerHTML = randomSong.title;
-    titleDiv.setAttribute('class', 'title');
-    randomSongElement.appendChild(titleDiv);
-    randomSongElementFooter.appendChild(titleDiv.cloneNode(true));
-
-    const songDate = new Date(randomSong.date);
-    const formattedDate = `${songDate.toLocaleDateString()} ${songDate.toLocaleTimeString()}`;
-
-    let artistDurationDiv = document.createElement('div');
-    artistDurationDiv.innerHTML = `${randomSong.artist.name} (${formatDuration(randomSong.duration)})`; // - ${formattedDate}
-    artistDurationDiv.setAttribute('class', 'artist-duration');
-    randomSongElement.appendChild(artistDurationDiv);
-    randomSongElementFooter.appendChild(artistDurationDiv.cloneNode(true));
-}
-
+// Footer aktualisieren
 function updateFooter(song) {
     let footerElement = document.getElementById('random_song_footer');
     footerElement.innerHTML = '';
@@ -141,7 +118,6 @@ function updateFooter(song) {
     const playButton = document.createElement('a');
     playButton.href = '#';
     playButton.className = 'changeSongLink';
-    // playButton.innerHTML = '<button>Play</button>';
 
     const songInfoDiv = document.createElement('div');
     songInfoDiv.className = 'footer-song-info';
@@ -175,7 +151,7 @@ function updateFooter(song) {
     footerElement.appendChild(linksDiv);
 }
 
-//Search Song
+// Autocomplete für die Songsuche
 function generateAutocomplete(songs) {
     console.log(songs);
     const searchInput = document.getElementById('autocomplete-input');
@@ -217,12 +193,12 @@ function generateAutocomplete(songs) {
         }
     });
 }
-
+// Mehr Songs laden
 function loadMoreSongs() {
     amount += 15;
     showSongs(currentDate, amount, currentFromTime, currentToTime);
 }
-
+// Initialisierungs- und Event-Listener-Setup
 document.addEventListener('DOMContentLoaded', function() {
     const datePicker = document.getElementById('datePicker');
     const filterButton = document.getElementById('filter-button');
@@ -238,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
     datePicker.value = minValidDateString;
     currentDate = minValidDateString;
 
-    // Set attributes for the date picker
+    // Attribute für den Datepicker setzen
     datePicker.setAttribute('max', minValidDateString);
     datePicker.setAttribute('min', '1900-01-01'); // Some very past date
 
