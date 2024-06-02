@@ -16,27 +16,35 @@
     </header>
     
     <div class="wrapper">
-
-        <h1>Song verpasst?</h1>
-        <div class="autocomplete-container">
-            <input type="text" id="autocomplete-input" placeholder="Type to search...">
-            <button id="search-button">Enter</button>
-            <div id="autocomplete-results" class="autocomplete-results"></div>
+<div class="Suchfunktionen">
+        <div class="EintippSuche">
+            <h1 class="songVerpasst">Song verpasst?</h1>
+            <p class="songVerpasst">Hier kannst du nach deinem Song suchen </p>
+            <div class="autocomplete-container">
+                <input type="text" id="autocomplete-input" placeholder="Songtitel suchen...">
+                <button id="search-button">Suchen</button>
+                <div id="autocomplete-results" class="autocomplete-results"></div>
+            </div>
         </div>
-        <p> Datum eingeben – nach deinem Song suchen</p>
+        <div class="SucheNachDatum">
+            <h1 class="songVerpasst">Abspieldatum Suchen</h1>
+            <p class="songVerpasst">Wann hast du den Song auf SRF Virus gehört?</p>
 
-        <form id="dateForm">
-            <label for="datePicker">Datum:</label>
-            <input type="date" id="datePicker" name="datePicker">
-        </form>
-        
-        <form id="timeForm">
-            <label for="fromTime">Von:</label>
-            <input type="time" id="fromTime" name="fromTime" value="00:00">
-            <label for="toTime">Bis:</label>
-            <input type="time" id="toTime" name="toTime" value="23:59">
-            <button id="filter-button">Filter</button>
-        </form>
+            <form id="dateForm">
+                <label for="datePicker">Datum:</label>
+                <input type="date" id="datePicker" name="datePicker">
+            </form>
+            
+            <form id="timeForm">
+                <label for="fromTime">Von:</label>
+                <input type="time" id="fromTime" name="fromTime" value="00:00">
+                <label for="toTime">Bis:</label>
+                <input type="time" id="toTime" name="toTime" value="23:59">
+                <button id="filter-button">Filter</button>
+            </form>
+        </div>
+    </div>
+
         
         <div id="recommendations"></div>
         <button id="load_more">Load More</button>
@@ -44,8 +52,7 @@
         <h2>Random Virus</h2>
         <div id="random_song"></div>
 
-        <h2>Durchsuche unsere sicken Songs</h2>
-        <div id="recommendations_alt"></div> <!-- Umbenannt von recommendations -->
+  
 
     </div>
 
@@ -59,7 +66,7 @@
             </div>
             
             <div class="team-member">
-                <img src="Assets/lukas_website.jpg" alt="lukas_bild">
+                <img src="Assets/lukas_website.png" alt="lukas_bild">
                 <h2>Lukas Hohmeister</h2>
                 <p>Head of Design</p>
             </div>

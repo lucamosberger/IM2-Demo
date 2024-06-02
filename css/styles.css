@@ -35,8 +35,9 @@ body {
 }
   
 h1 {
-    font-size: 2rem; /* 32px */
+    font-size: 1.5rem; /* 32px */
     color: var(--accent-color);
+   
 }
   
 h2 {
@@ -62,13 +63,19 @@ p {
     html {
         font-size: 14px;
     }
+
+
+
 }
   
 @media (max-width: 600px) {
     html {
         font-size: 13px;
     }
-}
+
+    }
+
+
 
 header {
     display: flex;
@@ -77,6 +84,7 @@ header {
     background-color: var(--dark-grey);
     height: 10%;
     width: 100%;
+    margin-bottom: 2.5%;
 }
 
 header h1 {
@@ -91,6 +99,31 @@ header img {
     height: 50%;
 }
 
+
+.songVerpasst {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    margin: top 10vp;
+    
+}
+
+/*Suchfunktionen*/
+.SucheNachDatum {
+    border: 3px solid;
+    border-color: red;
+    width: 40%;
+
+}
+
+.EintippSuche {
+    border: 3px solid;
+    border-color: green;
+    width: 40%;
+
+}
+
+
 .wrapper {
     width: 100%;
     margin: 0;
@@ -98,6 +131,16 @@ header img {
     box-sizing: border-box;
     flex: 1 0 auto;
 }
+
+.Suchfunktionen {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: red;
+    border: 3px solid;
+}
+
 
 .autocomplete-container {
     position: relative;
@@ -179,23 +222,7 @@ header img {
     border-color: var(--accent-color);
 }
 
-.song button {
-    background-color: var(--light-grey);
-    border: 2px solid;
-    border-color: var(--light-grey);
-    color: var(--background-color);
-    cursor: pointer;
-    border: none;
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
 
-.song button:hover {
-    background-color: var(--dark-grey);
-    color: var(--accent-color);
-    border: 2px solid;
-    border-color: var(--light-grey);
-}
 
 .song-info {
     display: flex;
@@ -261,20 +288,6 @@ footer {
     flex-shrink: 0;
 }
 
-#play_pause_button {
-    background-color: #9df200;
-    color: #000;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 20px;
-}
-
-#play_pause_button:hover {
-    background-color: #000;
-    color: #9df200;
-}
-
 .team-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -323,10 +336,46 @@ footer {
     font-size: 16px;
 }
 
+/*------------------Buttons-----------------------*/
+/*Button generell*/
+
+button {
+    background-color: var(--light-grey);
+    color: var(--accent-color);
+    border-radius: 3%;
+    size: 1rem;
+}
+
+button:hover {
+    background-color: var(--background-color);
+    color: var(--dark-grey);
+    
+}
+
+.song button {
+    background-color: var(--light-grey);
+    border: 2px solid;
+    border-color: var(--light-grey);
+    color: var(--background-color);
+    cursor: pointer;
+    border: none;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.song button:hover {
+    background-color: var(--dark-grey);
+    color: var(--accent-color);
+    border: 2px solid;
+    border-color: var(--light-grey);
+}
+
+/*-----------Footer-----------------------*/
+
 #playPauseButton,
 button {
-    background-color: #9df200;
-    color: #000;
+    background-color:var(--accent-color);
+    color: var(--background-color);
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -347,6 +396,8 @@ button.play-btn {
     cursor: pointer;
     font-size: 12px;
 }
+/*End Button generell*/
+
 
 #random_song_footer {
     display: flex;
