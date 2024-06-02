@@ -120,8 +120,6 @@ header img {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    border: red;
-    border: 3px solid;
 }
 .Suchfunktionen p {
     margin: 0;
@@ -131,7 +129,7 @@ header img {
 }
 
 form {
-    font: Inter;
+    font-family: Inter;
     font-size: 0.8rem;
 
 }
@@ -147,17 +145,14 @@ form {
 
 /*Suchfunktionen*/
 .SucheNachDatum {
-    border: 3px solid;
-    border-color: red;
     width: 40%;
     min-width: 300px;
     display: block;
+    
 
 }
 
 .EintippSuche {
-    border: 3px solid;
-    border-color: green;
     width: 40%;
     min-width: 300px;
     display: block;
@@ -180,7 +175,8 @@ input {
     position: relative;
     width: 100%;
     max-width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 15px;
     background-color: none;
 }
 
@@ -220,10 +216,7 @@ input {
     margin-bottom: 40; /* Abstand unter dem Formular */
 }
 
-#recommendation {
-    color: aqua;
-    
-}
+
 
 #recommendations {
     display: flex;
