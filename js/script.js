@@ -1,183 +1,167 @@
-// const searchBocks = document.querySelector('#search');
-// const app = document.querySelector('#app');
-// let anzahlsongs = 445;
+// Globale Variablen und Initialisierungen
+let songs = [];
+let load_more_button = document.querySelector("#load_more");
+let amount = 15;
 
-// document.addEventListener('DOMContentLoaded', function(){
-//     initSongs();
-// });
+// Initiale Filterwerte
+let currentDate = null;
+let currentFromTime = "00:00";
+let currentToTime = "23:59";
 
-// // searchBox.addEventListener('input', function(){
-//     // sucheSongs(searchBox.value);
-// //});
-
-// async function initSongs() {
-//     let url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-04-08T00%3A00%3A00%2B02%3A00&to=2024-04-08T23%3A59%3A00%2B02%3A00&pageSize=500`; 
-//     let songs = await fetchData(url);
-//     updateDOM(songs);
-// }
-
-
-
-//console.log('Hello, World!');
-
-let songs = []
-
-let heute = new Date();
-console.log("Heute: ",heute);
-
-let heuteSubstring = heute.toISOString().substring(0, 10);
-console.log("Heute Substring: ",heuteSubstring);
-
-let gestern = heute.setDate(heute.getDate() - 1);
-let gesternSubstring = new Date(gestern).toISOString().substring(0, 10);
-console.log("Gestern Substring: ",gesternSubstring);
-
-// 2024-04-08
-
-// let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=2024-04-08T00%3A00%3A00%2B02%3A00&to=2024-04-08T23%3A59%3A00%2B02%3A00&pageSize=500`
-
-
-let url =`https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${gesternSubstring}T00%3A00%3A00%2B02%3A00&to=${gesternSubstring}T23%3A59%3A00%2B02%3A00&pageSize=500`
-console.log("URL: ",url);
-
-function generateRandomNumber() {
-    return Math.floor(Math.random() * 446);
-    
-}
-async function callAPI () {
+// Daten von der API abrufen
+async function fetchData(url) {
     const response = await fetch(url);
-    //console.log("Raw response: ",response);
     const data = await response.json();
-    //console.log("Data: ",data);
-    songs = data.songList;
-    //console.log("Songs: ",songs);
-    // let firstSong = songs[5];
-    // console.log("First Song: ",firstSong);
-    //filter song where isPlayingNow = true
-    let currentSong = songs.filter(song => song.isPlayingNow == true);
-    //console.log ("currentSong: ",currentSong);
-
-    generateAutocomplete()
-
-        // Auswahl und Anzeige von 9 zufälligen Empfehlungssongs
-        let recommendedSongs = getRandomSongs(songs);
-        displayRecommendations(recommendedSongs);
+    return data.songList;
 }
+// Songs anzeigen
+async function showSongs(selectedDate, amount, fromTime = "00:00", toTime = "23:59") {
+    if (!selectedDate) {
+        alert("Bitte wählen Sie ein gültiges Datum.");
+        return;
+    }
 
+    const fromDate = `${selectedDate}T${encodeURIComponent(fromTime)}%2B02%3A00`;
+    const toDate = `${selectedDate}T${encodeURIComponent(toTime)}%2B02%3A00`;
 
-callAPI();
+    // Radio SRF VIRUS API (DATEN NICHT REGELMÄSSIG VERFÜGBAR)
+    // const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/66815fe2-9008-4853-80a5-f9caaffdf3a9?from=${fromDate}&to=${toDate}&pageSize=${amount}`;
 
-//chooose random song
-function chooseRandomSong() {
-    let randomNumber = generateRandomNumber();
-    //console.log("Random Number: ",randomNumber);
+    // Radio SRF 3 API (DATEN BIS ZUM HEUTIGEN TAG VERFÜGBAR)
+    const url = `https://il.srgssr.ch/integrationlayer/2.0/srf/songList/radio/byChannel/69e8ac16-4327-4af4-b873-fd5cd6e895a7?from=${fromDate}&to=${toDate}&pageSize=${amount}`;	
+
+    console.log(url);
+    songs = await fetchData(url);
+    updateDOM(songs);
+    generateAutocomplete(songs);
 }
-chooseRandomSong ()
+// DOM aktualisieren
+function updateDOM(songs) {
+    const container = document.getElementById('recommendations');
+    container.innerHTML = '';
+    if (songs && songs.length > 0) {
+        songs.forEach((song, index) => {
+            const mainDiv = document.createElement('div');
+            mainDiv.className = 'song';
 
+            const playButton = document.createElement('a');
+            playButton.href = '#';
+            playButton.className = 'changeSongLink';
+            playButton.setAttribute('data-index', index);
+            playButton.innerHTML = '<button class="play-btn">Play</button>';
 
+            const songInfoDiv = document.createElement('div');
+            songInfoDiv.className = 'song-info';
+            songInfoDiv.innerHTML = `
+                <div class="artist">${song.artist.name}</div>
+                <div class="title-duration">${song.title} (${formatDuration(song.duration)})</div>
+`;
+            const songTimeDiv = document.createElement('div');
+            songTimeDiv.className = 'song-time';
+            songTimeDiv.innerHTML = `
+              <div class="date">Spieldatum</div>
+              ${new Date(song.date).toLocaleDateString()} ${new Date(song.date).toLocaleTimeString()}</div>
+            `;
 
-async function showRandomSong() {
-    await callAPI(); //wait for the API to be loaded
-    let randomNumber = generateRandomNumber();
-   // console.log("Random Number: ",randomNumber);
-    let randomSong = songs[randomNumber];
+            const linksDiv = document.createElement('div');
+            linksDiv.className = 'links';
+            linksDiv.innerHTML = `
+                <div class="link_youtube">
+                    <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>YouTube</button>
+                    </a>
+                </div>
+                <div class="link_spotify">
+                    <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>Spotify</button>
+                    </a>
+                </div>
+                <div class="link_apple_music">
+                    <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                        <button>Apple Music</button>
+                    </a>
+                </div>
+            `;
 
-    let randomSongElement = document.getElementById('random_song');
-
-    let titleDiv= document.createElement('div');
-    titleDiv.innerHTML = randomSong.title;
-    titleDiv.setAttribute('class','title');
-    randomSongElement.appendChild(titleDiv);
-
-    let artistDiv = document.createElement('div');
-    artistDiv.innerHTML = randomSong.artist.name;
-    artistDiv.setAttribute('class', 'artist'); // Setzt die Klasse 'artist'
-    randomSongElement.appendChild(artistDiv);
-    
-    //randomSongElement.innerHTML = randomSong.title +" by "+ randomSong.artist.name;
-
-}
-showRandomSong();
-//console.log("Unser Song: ",unserSong);
-
-
-//search song
-function searchSong() {
-    let searchValue = document.getElementById('search').value;
-    //console.log("Search Value: ",searchValue);
-    let foundSongs = songs.filter(song => song.title.toLowerCase().includes(searchValue.toLowerCase()));
-    //console.log("Found Songs: ",foundSongs);
-}
-
-
-// Funktion zum Filtern und Anzeigen von Songs
-function updateSongList(searchValue) {
-    const songList = document.getElementById('songList');
-    songList.innerHTML = ''; // Liste leeren
-
-    if (searchValue) {
-        const foundSongs = songs.filter(song =>
-            song.title.toLowerCase().includes(searchValue.toLowerCase())
-        );
-
-        
-        foundSongs.forEach(song => {
-            const li = document.createElement('li');
-            //li.textContent = `${song.title} - ${song.artist.name}`;
-            li.textContent = song.title +" - "+song.artist.name;
-            document.createElement('a')
-            songList.appendChild(li);
-
+            mainDiv.appendChild(playButton);
+            mainDiv.appendChild(songInfoDiv);
+            mainDiv.appendChild(songTimeDiv);
+            mainDiv.appendChild(linksDiv);
+            container.appendChild(mainDiv);
         });
+
+        document.querySelectorAll('.changeSongLink').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const songIndex = event.currentTarget.getAttribute('data-index');
+                updateFooter(songs[songIndex]);
+            });
+        });
+    } else {
+        container.innerHTML = '<p>Keine Songs gefunden.</p>';
     }
 }
 
+// Dauer formatieren
+function formatDuration(duration) {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = ((duration % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 
-// // Event Listener für das Suchfeld
-// document.getElementById('searchInput').addEventListener('input', (event) => {
-//     updateSongList(event.target.value);
-// });
+// Footer aktualisieren
+function updateFooter(song) {
+    let footerElement = document.getElementById('random_song_footer');
+    footerElement.innerHTML = '';
 
+    const playButton = document.createElement('a');
+    playButton.href = '#';
+    playButton.className = 'changeSongLink';
 
-// function generateAutocomplete() {
-//     const searchInput = document.getElementById('autocomplete-input');
-//     const resultsContainer = document.getElementById('autocomplete-results');
+    const songInfoDiv = document.createElement('div');
+    songInfoDiv.className = 'footer-song-info';
+    songInfoDiv.innerHTML = `
+    ${song.artist.name}
+    ${song.title} (${formatDuration(song.duration)})
+    `;
 
-//     //const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Grape', 'Kiwi', 'Mango', 'Nectarine', 'Orange', 'Pineapple', 'Quince'];
-//     //console.log("Songs: ",songs);
-//     const items = songs.map(song => song.title+", "+song.artist.name);
-//     console.log("Songs: ",songs);
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'footer-links';
+    linksDiv.innerHTML = `
+        <div class="link_youtube">
+            <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>YouTube</button>
+            </a>
+        </div>
+        <div class="link_spotify">
+            <a href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>Spotify</button>
+            </a>
+        </div>
+        <div class="link_apple_music">
+            <a href="https://music.apple.com/us/search?term=${encodeURIComponent(song.title + ' ' + song.artist.name)}" target="_blank">
+                <button>Apple Music</button>
+            </a>
+        </div>
+    `;
 
-//     searchInput.addEventListener('input', function() {
-//         const input = searchInput.value.toLowerCase();
-//         resultsContainer.innerHTML = '';
+    footerElement.appendChild(playButton);
+    footerElement.appendChild(songInfoDiv);
+    footerElement.appendChild(linksDiv);
+}
 
-//         if (input.length > 0) {
-//             const filteredItems = items.filter(item => item.toLowerCase().startsWith(input));
-
-//             filteredItems.forEach(function(item) {
-//                 const div = document.createElement('div');
-//                 div.textContent = item;
-//                 div.addEventListener('click', function() {
-//                     searchInput.value = item;
-//                     resultsContainer.innerHTML = '';
-//                 });
-//                 resultsContainer.appendChild(div);
-//             });
-//         }
-//     });
-// };
-
-function generateAutocomplete() {
+// Autocomplete für die Songsuche
+function generateAutocomplete(songs) {
+    console.log(songs);
     const searchInput = document.getElementById('autocomplete-input');
     const resultsContainer = document.getElementById('autocomplete-results');
+    const searchButton = document.getElementById('search-button');
 
-    // Array `songs` wird vorausgesetzt, dass es definiert und initialisiert wurde.
     const items = songs.map(song => ({
-        label: song.title + ", " + song.artist.name, // Komplette Beschriftung für Anzeige
-        title: song.title.toLowerCase(), // Titel in Kleinbuchstaben
-        artist: song.artist.name.toLowerCase() // Künstlername in Kleinbuchstaben
+        label: song.title + ", " + song.artist.name,
+        title: song.title.toLowerCase(),
+        artist: song.artist.name.toLowerCase()
     }));
 
     searchInput.addEventListener('input', function() {
@@ -185,7 +169,6 @@ function generateAutocomplete() {
         resultsContainer.innerHTML = '';
 
         if (input.length > 0) {
-            // Filtert sowohl nach Titel als auch Künstlernamen, die mit dem Eingabewert beginnen
             const filteredItems = items.filter(item => 
                 item.title.startsWith(input) || item.artist.startsWith(input)
             );
@@ -201,19 +184,59 @@ function generateAutocomplete() {
             });
         }
     });
-}
 
-function getRandomSongs(songs, displayCount = 445) {
-    return songs.sort(() => 0.5 - Math.random()).slice(0, displayCount);
-}
-
-function displayRecommendations(songs) {
-    const container = document.getElementById('recommendations');
-    container.innerHTML = '';
-    songs.forEach(song => {
-        const div = document.createElement('div');
-        div.className = 'song';
-        div.innerHTML = `<strong>${song.title}</strong> von ${song.artist.name}`;
-        container.appendChild(div);
+    searchButton.addEventListener('click', function() {
+        const selectedSong = items.find(item => item.label.toLowerCase() === searchInput.value.toLowerCase());
+        if (selectedSong) {
+            const songIndex = items.findIndex(item => item.label.toLowerCase() === searchInput.value.toLowerCase());
+            updateFooter(songs[songIndex]);
+        }
     });
 }
+// Mehr Songs laden
+function loadMoreSongs() {
+    amount += 15;
+    showSongs(currentDate, amount, currentFromTime, currentToTime);
+}
+// Initialisierungs- und Event-Listener-Setup
+document.addEventListener('DOMContentLoaded', function() {
+    const datePicker = document.getElementById('datePicker');
+    const filterButton = document.getElementById('filter-button');
+    const fromTimeInput = document.getElementById('fromTime');
+    const toTimeInput = document.getElementById('toTime');
+
+    const today = new Date();
+    const minValidDate = new Date(today);
+    minValidDate.setDate(today.getDate() - 0);
+    const minValidDateString = minValidDate.toISOString().split('T')[0];
+    const todayString = today.toISOString().split('T')[0];
+
+    datePicker.value = minValidDateString;
+    currentDate = minValidDateString;
+
+    // Attribute für den Datepicker setzen
+    datePicker.setAttribute('max', minValidDateString);
+    datePicker.setAttribute('min', '1900-01-01'); // Some very past date
+
+    showSongs(datePicker.value, amount);
+
+    datePicker.addEventListener('input', function() {
+        const selectedDate = new Date(datePicker.value);
+        if (selectedDate > minValidDate || selectedDate > minValidDateString) {
+            datePicker.value = minValidDateString;
+        } else {
+            currentDate = datePicker.value;
+            showSongs(datePicker.value, amount, currentFromTime, currentToTime);
+        }
+    });
+
+    filterButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        currentDate = datePicker.value;
+        currentFromTime = fromTimeInput.value;
+        currentToTime = toTimeInput.value;
+        showSongs(currentDate, amount, currentFromTime, currentToTime);
+    });
+
+    load_more_button.addEventListener('click', loadMoreSongs);
+});
